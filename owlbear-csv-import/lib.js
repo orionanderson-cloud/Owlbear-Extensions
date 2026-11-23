@@ -9,25 +9,25 @@
 //   { id, color, name?, showOnMap?, variant: "value", value }           -> bubble
 //   { id, color, name?, showOnMap?, variant: "counter", value }         -> counter
 //   { id, color, name?, showOnMap?, variant: "checkbox", checked }      -> checkbox
-
+ 
 export const TRACKERS_KEY = "com.owl-trackers/trackers";
 export const HIDDEN_KEY = "com.owl-trackers/hidden";
 export const MAX_TRACKERS = 12; // Owl Trackers' MAX_TRACKER_COUNT
 export const STORAGE_KEY = "ringbearer-csv-import/v1";
-
+ 
 // Owl Trackers' 9 colours, by index.
 export const COLORS = {
   fuchsia: 0, purple: 0, pink: 1, red: 2, orange: 3, yellow: 4,
   lime: 5, green: 6, emerald: 6, cyan: 7, teal: 7, blue: 8,
 };
-
+ 
 // Columns that identify the row (the first one found is used).
 const NAME_HEADERS = ["name", "class", "npc", "token", "unit"];
-
+ 
 // Columns ignored unless you give them a type in brackets.
 const SKIP_HEADERS = ["role", "tier", "template", "templates", "notes", "note", "description", "tags", "size", "source", "page", "book",
   "hull", "agility", "systems", "engineering"];
-
+ 
 // Defaults for Lancer stats, keyed by header with spaces/punctuation removed.
 // type: bar = full bar (value = max = cell), bar0 = bar that starts empty (heat),
 //       bubble = single number, counter, check
@@ -35,15 +35,15 @@ const KNOWN = {
   hp:         { type: "bar",    color: COLORS.green,     label: "HP" },
   heat:       { type: "bar0",   color: COLORS.red,  label: "Heat" },
   heatcap:    { type: "bar0",   color: COLORS.red,  label: "Heat" },
-  structure:  { type: "bar",    color: COLORS.green,    label: "Structure" },
-  stress:     { type: "bar",    color: COLORS.red, label: "Stress" },
+  structure:  { type: "counter",    color: COLORS.green,    label: "Structure" },
+  stress:     { type: "counter",    color: COLORS.red, label: "Stress" },
   overshield: { type: "bubble", color: COLORS.cyan,    label: "Overshield" },
   burn:       { type: "bubble", color: COLORS.orange,  label: "Burn" },
-  armor:      { type: "bubble", color: COLORS.lime,    label: "Armor" },
-  armour:     { type: "bubble", color: COLORS.lime,    label: "Armor" },
-  evasion:    { type: "bubble", color: COLORS.blue,   label: "Evasion" },
-  evade:      { type: "bubble", color: COLORS.blue,   label: "Evasion" },
-  edef:       { type: "bubble", color: COLORS.yellow,    label: "E-Def" },
+  armor:      { type: "bubble", color: COLORS.lime,    label: "Armor", offmap: true },
+  armour:     { type: "bubble", color: COLORS.lime,    label: "Armor", offmap: true },
+  evasion:    { type: "bubble", color: COLORS.blue,   label: "Evasion", offmap: true },
+  evade:      { type: "bubble", color: COLORS.blue,   label: "Evasion", offmap: true },
+  edef:       { type: "bubble", color: COLORS.yellow,    label: "E-Def", offmap: true },
   speed:      { type: "bubble", color: COLORS.orange,  label: "Speed" },
   sensors:    { type: "bubble", color: COLORS.pink,    label: "Sensors" },
   sensor:     { type: "bubble", color: COLORS.pink,    label: "Sensors" },
@@ -51,17 +51,17 @@ const KNOWN = {
   savetarget: { type: "bubble", color: COLORS.cyan,    label: "Save" },
   activations:{ type: "bubble", color: COLORS.purple,  label: "Activations" },
 };
-
+ 
 const TYPE_WORDS = {
   bar: "bar", full: "bar", bar0: "bar0", empty: "bar0",
   bubble: "bubble", value: "bubble", number: "bubble",
   counter: "counter", check: "check", checkbox: "check",
   skip: "skip", ignore: "skip",
 };
-
+ 
 export const squash = (s) => String(s ?? "").toLowerCase().replace(/[^a-z0-9]/g, "");
 export const normName = (s) => String(s ?? "").toLowerCase().trim().replace(/[\s_]+/g, " ");
-
+ 
 /** Parse CSV text into an array of string arrays. Handles quotes, CRLF, BOM, and ; or tab delimiters. */
 export function parseCSV(text) {
   text = String(text ?? "").replace(/^﻿/, "");
@@ -71,7 +71,7 @@ export function parseCSV(text) {
   const delim = Object.entries(counts).sort((a, b) => b[1] - a[1])[0][1] > 0
     ? Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0]
     : ",";
-
+ 
   const rows = [];
   let row = [], field = "", inQuotes = false;
   for (let i = 0; i < text.length; i++) {
@@ -91,7 +91,7 @@ export function parseCSV(text) {
   if (field !== "" || row.length) { row.push(field); rows.push(row); }
   return rows.filter((r) => r.some((f) => f.trim() !== "") && !r[0].trim().startsWith("#"));
 }
-
+ 
 /** Read a header like "Speed [offmap, yellow]" into a column spec. */
 export function parseHeader(raw) {
   const m = String(raw).match(/^(.*?)\s*(?:\[(.*)\])?\s*$/);
@@ -103,7 +103,7 @@ export function parseHeader(raw) {
     label: known?.label ?? label,
     type: known?.type ?? (SKIP_HEADERS.includes(squash(label)) ? "skip" : "bubble"),
     color: known?.color,
-    showOnMap: true,
+    showOnMap: !known?.offmap,
   };
   for (const mod of mods) {
     if (mod in TYPE_WORDS) spec.type = TYPE_WORDS[mod];
@@ -114,7 +114,7 @@ export function parseHeader(raw) {
   }
   return spec;
 }
-
+ 
 /**
  * Turn CSV text into a table: { columns, rows, byName, warnings }.
  * rows: [{ name, cells: string[] }] in file order.
@@ -123,7 +123,7 @@ export function buildTable(text) {
   const grid = parseCSV(text);
   const warnings = [];
   if (grid.length < 2) return { columns: [], rows: [], byName: new Map(), nameIndex: 0, warnings: ["The CSV needs a header row and at least one data row."] };
-
+ 
   const headers = grid[0].map((h) => h.trim());
   let nameIndex = headers.findIndex((h) => NAME_HEADERS.includes(squash(h.replace(/\[.*\]/, ""))));
   if (nameIndex < 0) {
@@ -131,13 +131,13 @@ export function buildTable(text) {
     warnings.push(`No "Name" column found, so the first column ("${headers[0]}") is used as the name.`);
   }
   const columns = headers.map((h, i) => (i === nameIndex ? { header: h, type: "name" } : parseHeader(h)));
-
+ 
   // Assign colours to columns without one, cycling like Owl Trackers does.
   let auto = 0;
   for (const col of columns) {
     if (col.type !== "name" && col.type !== "skip" && col.color === undefined) col.color = (5 + auto++ * 2) % 9;
   }
-
+ 
   const rows = [];
   const byName = new Map();
   for (const r of grid.slice(1)) {
@@ -153,16 +153,15 @@ export function buildTable(text) {
   if (trackerCols.length > MAX_TRACKERS) warnings.push(`There are ${trackerCols.length} stat columns, but Owl Trackers shows at most ${MAX_TRACKERS} per token.`);
   return { columns, rows, byName, nameIndex, warnings };
 }
-
+ 
 const newId = () => `${Date.now()}-${Math.floor(Math.random() * 10000)}`;
-
+ 
 function toNumber(s) {
-  const cleaned = String(s).replace(/[^0-9.+-]/g, "");
-  if (!/\d/.test(cleaned)) return null; // "N/A", "-", text: no tracker
-  const n = Number(cleaned);
-  return Number.isFinite(n) ? n : null;
+  // First number in the cell: "8" -> 8, "+2" -> 2, "2/4" -> 2, "N/A" -> null (no tracker)
+  const m = String(s).match(/[+-]?\d+(?:\.\d+)?/);
+  return m ? Number(m[0]) : null;
 }
-
+ 
 /** Build the list of trackers for one CSV row. Blank cells make no tracker. */
 export function trackersForRow(table, row) {
   const out = [];
@@ -172,7 +171,7 @@ export function trackersForRow(table, row) {
     if (cell === "") return;
     const base = { id: newId() + "-" + i, color: col.color, name: col.label };
     if (!col.showOnMap) base.showOnMap = false;
-
+ 
     if (col.type === "bar" || col.type === "bar0") {
       let value, max;
       const frac = cell.match(/^\s*(-?[\d.]+)\s*\/\s*(-?[\d.]+)\s*$/);
@@ -194,7 +193,7 @@ export function trackersForRow(table, row) {
   });
   return out;
 }
-
+ 
 /** Combine new trackers with a token's existing ones. */
 export function mergeTrackers(existing, incoming, replaceAll) {
   if (replaceAll || !Array.isArray(existing)) return incoming.slice(0, MAX_TRACKERS);
@@ -206,7 +205,7 @@ export function mergeTrackers(existing, incoming, replaceAll) {
   }
   return result.slice(0, MAX_TRACKERS);
 }
-
+ 
 /** Names to try for a token: its name and its label, then each with a trailing number/(note) removed. */
 export function candidateNames(item) {
   const raw = [item?.name, item?.text?.plainText].filter((s) => typeof s === "string" && s.trim());
@@ -223,7 +222,7 @@ export function candidateNames(item) {
   }
   return [...new Set(out)];
 }
-
+ 
 export function findRowForItem(table, item) {
   for (const n of candidateNames(item)) {
     const row = table.byName.get(n);
@@ -231,7 +230,7 @@ export function findRowForItem(table, item) {
   }
   return null;
 }
-
+ 
 /**
  * Write rows onto items.
  * plan: [{ item, row }]; options: { replaceAll, hidden: "keep" | "hide" | "show" }
@@ -249,7 +248,7 @@ export async function applyPlan(OBR, table, plan, options) {
     }
   });
 }
-
+ 
 /** Saved state in this browser: { csv, fileName, options }. */
 export function loadSaved() {
   try {
@@ -268,3 +267,4 @@ export function saveState(patch) {
   }
 }
 export const defaultOptions = { replaceAll: false, hidden: "keep" };
+ 
