@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Lancer NPC Sheets</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<main class="action">
+  <div>
+    <h1>Lancer NPC Sheets</h1>
+    <div class="muted" id="loaded">No NPC data loaded.</div>
+  </div>
+  <div class="row">
+    <button id="pick">Load NPC data file</button>
+    <button id="openSel" disabled>Sheet for selected token</button>
+    <input type="file" id="file" accept=".json,application/json" hidden />
+  </div>
+  <div id="status"></div>
+  <section class="box" id="browse" hidden>
+    <input type="search" id="q" placeholder="Search classes, systems, traits…" />
+    <div class="list" id="list"></div>
+  </section>
+  <div class="muted">Right-click an enemy token and choose <b>NPC sheet</b>, or pick the <b>NPC Sheets</b> tool (shortcut N) and click tokens.</div>
+</main>
+<script type="module" src="action.js"></script>
+</body>
+</html>
