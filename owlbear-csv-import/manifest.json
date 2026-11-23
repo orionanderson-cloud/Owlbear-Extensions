@@ -1,15 +1,15 @@
 {
   "name": "CSV Stat Import",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "manifest_version": 1,
   "author": "Orion",
   "description": "Load a CSV of stats and write them onto tokens as Owl Trackers bars and bubbles.",
-  "icon": "icon.svg",
-  "background_url": "background.html",
+  "icon": "https://orionanderson-cloud.github.io/Owlbear-Extensions/owlbear-csv-import/icon.svg",
+  "background_url": "https://orionanderson-cloud.github.io/Owlbear-Extensions/owlbear-csv-import/background.html",
   "action": {
     "title": "CSV Stat Import",
-    "icon": "icon.svg",
-    "popover": "action.html",
+    "icon": "https://orionanderson-cloud.github.io/Owlbear-Extensions/owlbear-csv-import/icon.svg",
+    "popover": "https://orionanderson-cloud.github.io/Owlbear-Extensions/owlbear-csv-import/action.html",
     "height": 500,
     "width": 320
   }
