@@ -69,7 +69,7 @@ export function guessFromName(data, name) {
   const m = lower.match(/ (?:t|tier )([123]) /);
   if (m) tier = Number(m[1]);
   const templates = TEMPLATE_NAMES.filter((t) => lower.includes(` ${t.toLowerCase()} `));
-  return { cls, tier, templates, picks: [], gruntType: null };
+  return { cls, tier, templates, picks: [], hidden: [], gruntType: null };
 }
 
 export function sheetForItem(data, item) {
@@ -79,7 +79,7 @@ export function sheetForItem(data, item) {
 }
 
 function defaults() {
-  return { cls: null, tier: 1, templates: [], picks: [], gruntType: null };
+  return { cls: null, tier: 1, templates: [], picks: [], hidden: [], gruntType: null };
 }
 
 // ---------- text → HTML ----------
@@ -123,8 +123,11 @@ export function renderFeature(f, tier, opts = {}) {
   const toggle = opts.pickable
     ? `<label class="pick" title="Mark as taken by this NPC"><input type="checkbox" data-pick="${esc(opts.key)}" ${opts.picked ? "checked" : ""}/> Taken</label>`
     : "";
-  return `<article class="feat${opts.picked ? " picked" : ""}">
-    <header><span class="fname">${esc(f.name)}</span>${toggle}</header>
+  const hide = opts.pickable && opts.picked
+    ? `<label class="pick hide" title="Hide this from players"><input type="checkbox" data-hide="${esc(opts.key)}" ${opts.hidden ? "checked" : ""}/> Hidden</label>`
+    : "";
+  return `<article class="feat${opts.picked ? " picked" : ""}${opts.hidden ? " secret" : ""}">
+    <header><span class="fname">${esc(f.name)}</span>${hide}${toggle}</header>
     ${tags ? `<div class="tags">${tags}</div>` : ""}
     ${body ? `<div class="body">${body}</div>` : ""}
   </article>`;

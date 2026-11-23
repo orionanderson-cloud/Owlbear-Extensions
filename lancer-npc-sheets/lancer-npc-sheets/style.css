@@ -84,3 +84,9 @@ details[open] > summary { margin-bottom: 6px; }
 main.action { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 10px; height: 100vh; }
 main.action h1 { font-size: 15px; font-weight: 500; margin: 0; }
 section.box { border-top: 1px solid var(--line); padding-top: 10px; display: flex; flex-direction: column; gap: 6px; }
+.feat.secret { border: 1px dashed var(--accent); }
+.feat.secret header { background: #6b1d22; color: #fff; }
+.feat.secret .fname::before { content: "🔒 "; }
+.feat .pick.hide { margin-left: auto; }
+.feat .pick.hide + .pick { margin-left: 8px; }
+.unknown { border: 1px dashed var(--accent); color: var(--accent); border-radius: 8px; padding: 6px 10px; font-weight: 600; }

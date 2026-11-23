@@ -16,7 +16,6 @@ OBR.onReady(async () => {
       icon,
       label: "NPC sheet",
       filter: {
-        roles: ["GM"],
         max: 1,
         every: [
           { key: "layer", value: "CHARACTER", coordinator: "||" },
@@ -31,10 +30,9 @@ OBR.onReady(async () => {
   });
 
   // "Sheet" tool: while it's selected, click (or double-click) a token to open its sheet.
-  if ((await OBR.player.getRole()) !== "GM") return;
   await OBR.tool.create({
     id: TOOL_ID,
-    icons: [{ icon, label: "NPC Sheets: click a token", filter: { roles: ["GM"] } }],
+    icons: [{ icon, label: "NPC Sheets: click a token" }],
     shortcut: "N",
   });
   await OBR.tool.createMode({

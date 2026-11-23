@@ -13,14 +13,16 @@ const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<
 let data = loadData();
 let item = null;
 let sheet = {
-  cls: params.get("cls"), tier: Number(params.get("tier")) || 1, templates: [], picks: [], gruntType: null, guessed: false,
+  cls: params.get("cls"), tier: Number(params.get("tier")) || 1, templates: [], picks: [], hidden: [], gruntType: null, guessed: false,
 };
+let isGM = true;      // players get a read-only view
+let hiddenShown = 0;  // hidden picks met while rendering (player view shows a warning)
 let showTier = sheet.tier; // 0 = show every tier's numbers
 let inOBR = false;
 
 // ---------- saving ----------
 async function persist() {
-  if (!item || !inOBR) return;
+  if (!item || !inOBR || !isGM) return;
   const { guessed, ...save } = sheet;
   await OBR.scene.items.updateItems([item.id], (items) => {
     for (const it of items) it.metadata[SHEET_KEY] = save;
@@ -32,6 +34,13 @@ async function persist() {
 function trackersHTML() {
   const list = item?.metadata?.[TRACKERS_KEY];
   if (!Array.isArray(list) || list.length === 0) return "";
+  if (!isGM) {
+    if (item.metadata["com.owl-trackers/hidden"]) return "";
+    return `<div class="trackers">${list.map((t) => {
+      const v = t.variant === "checkbox" ? (t.checked ? "✓" : "–") : `${esc(t.value)}${t.variant === "value-max" ? ` / ${esc(t.max)}` : ""}`;
+      return `<div class="trk"><span class="n">${esc(t.name || "")}</span><b>${v}</b></div>`;
+    }).join("")}</div>`;
+  }
   return `<div class="trackers">${list.map((t, i) => {
     const name = esc(t.name || "");
     if (t.variant === "checkbox") {
@@ -82,9 +91,15 @@ function featureList(entries, scope, { pickable = false, fold = false } = {}) {
   const list = entries.map((e) => (e.f ? e : { f: e, scope }));
   if (!pickable) return list.map((e) => renderFeature(e.f, showTier)).join("");
   const isPicked = (e) => sheet.picks.includes(pickKey(e.scope, e.f));
+  const isHidden = (e) => (sheet.hidden ?? []).includes(pickKey(e.scope, e.f));
   const picked = list.filter(isPicked);
   const rest = list.filter((e) => !isPicked(e));
-  const card = (e, on) => renderFeature(e.f, showTier, { pickable: true, key: pickKey(e.scope, e.f), picked: on });
+  if (!isGM) {
+    // Players: only what's taken and not hidden; nothing about the other options.
+    hiddenShown += picked.filter(isHidden).length;
+    return picked.filter((e) => !isHidden(e)).map((e) => renderFeature(e.f, showTier)).join("");
+  }
+  const card = (e, on) => renderFeature(e.f, showTier, { pickable: true, key: pickKey(e.scope, e.f), picked: on, hidden: on && isHidden(e) });
   if (picked.length === 0 && !fold) return rest.map((e) => card(e, false)).join("");
   const label = picked.length ? `${rest.length} not taken` : `${rest.length} to choose from`;
   return picked.map((e) => card(e, true)).join("") +
@@ -98,7 +113,7 @@ function groupsHTML(doc, scope, { fold = false, extra = null } = {}) {
     if (doc === data.grunt && g.sub && g.sub !== sheet.gruntType) continue;
     const text = (g.text ?? []).map((p) => renderParagraph(p, showTier)).join("");
     if (title.includes("TACTIC") || title.includes("OPFOR")) {
-      notes += `<h3>${esc(g.title)}</h3><div class="prose">${text}</div>`;
+      if (isGM) notes += `<h3>${esc(g.title)}</h3><div class="prose">${text}</div>`;
       continue;
     }
     const pickable = title.includes("OPTIONAL") || title.includes("GENERAL VETERAN") || title.includes("ULTRA SYSTEMS");
@@ -110,7 +125,9 @@ function groupsHTML(doc, scope, { fold = false, extra = null } = {}) {
       feats = [...extra.map((f) => ({ f, scope: "Veteran/class" })), ...feats.map((f) => ({ f, scope: `${scope}/${g.title}` }))];
       shownHeading = "Veteran traits (class or general)";
     }
-    main += `<section class="group">${shownHeading ? `<h2>${esc(shownHeading)}</h2>` : ""}${text ? `<div class="prose">${text}</div>` : ""}${featureList(feats, `${scope}/${g.title}`, { pickable, fold: fold && pickable })}</section>`;
+    const listHTML = featureList(feats, `${scope}/${g.title}`, { pickable, fold: fold && pickable });
+    if (!isGM && pickable && !listHTML) continue;
+    main += `<section class="group">${shownHeading ? `<h2>${esc(shownHeading)}</h2>` : ""}${text && (isGM || !pickable) ? `<div class="prose">${text}</div>` : ""}${listHTML}</section>`;
   }
   return { main, notes };
 }
@@ -132,7 +149,10 @@ function render() {
     : "";
 
   let body = "";
-  if (!cls) {
+  hiddenShown = 0;
+  if (!cls && !isGM) {
+    body = `<div class="muted">There's no NPC sheet for this token.</div>`;
+  } else if (!cls) {
     body = `<div class="muted">${item ? `Couldn't tell the class from the name “${esc(name)}”. Pick one above; it's saved on the token.` : "Pick a class above."}</div>`;
   } else {
     const own = groupsHTML(cls, cls.name);
@@ -144,9 +164,11 @@ function render() {
       const g = groupsHTML(tdoc, t, { fold: true, extra });
       templates += `<h1 class="tmpl-title">${esc(t)} template</h1>${g.main}`;
     }
+    const warn = !isGM && hiddenShown > 0 ? `<div class="unknown">⚠ At least one unknown feature</div>` : "";
     body = `
       ${trackersHTML()}
       ${statsHTML(cls)}
+      ${warn}
       ${own.main}
       ${templates}
       ${own.notes ? `<details><summary>Tactics and OPFOR notes</summary>${own.notes}</details>` : ""}
@@ -157,8 +179,9 @@ function render() {
     <div class="top">
       <div class="title"><h1>${esc(name)}</h1><span class="role">${esc(cls?.role ?? "")}</span>
         ${inOBR ? `<button class="close" id="close" title="Close">✕</button>` : ""}</div>
-      <div class="row"><select id="cls">${classOpts}</select>${gruntTypes}<span class="seg">${tierSeg}</span></div>
-      <div class="row">${tmpl}${sheet.guessed && cls ? `<span class="muted">Guessed from the token name</span>` : ""}</div>
+      ${isGM ? `<div class="row"><select id="cls">${classOpts}</select>${gruntTypes}<span class="seg">${tierSeg}</span></div>
+      <div class="row">${tmpl}${sheet.guessed && cls ? `<span class="muted">Guessed from the token name</span>` : ""}</div>`
+      : `<div class="muted">${cls ? esc([`Tier ${sheet.tier || 1}`, ...(cls === data.grunt ? [] : sheet.templates)].join(" · ")) : ""}</div>`}
     </div>
     <div class="scroll">${body}</div>
   </div>`;
@@ -191,6 +214,7 @@ function wire() {
   const keep = (fn) => async (...a) => { const y = scroll?.scrollTop ?? 0; await fn(...a); render(); const s = document.querySelector(".scroll"); if (s) s.scrollTop = y; };
 
   if ($("close")) $("close").onclick = () => OBR.popover.close(POPOVER_ID);
+  if (!isGM) return;
   $("cls").onchange = keep(async () => {
     sheet.cls = $("cls").value || null; sheet.picks = []; sheet.gruntType = null; await persist();
   });
@@ -212,6 +236,15 @@ function wire() {
     c.onchange = keep(async () => {
       const k = c.dataset.pick;
       sheet.picks = c.checked ? [...new Set([...sheet.picks, k])] : sheet.picks.filter((x) => x !== k);
+      if (!c.checked) sheet.hidden = (sheet.hidden ?? []).filter((x) => x !== k);
+      await persist();
+    });
+  });
+  document.querySelectorAll("[data-hide]").forEach((c) => {
+    c.onchange = keep(async () => {
+      const k = c.dataset.hide;
+      const h = sheet.hidden ?? [];
+      sheet.hidden = c.checked ? [...new Set([...h, k])] : h.filter((x) => x !== k);
       await persist();
     });
   });
@@ -249,6 +282,10 @@ function startStandalone() {
     sheet = sheetForItem(data, item);
     showTier = sheet.tier;
   }
+  if (params.get("player")) isGM = false;
+  if (params.get("picks")) sheet.picks = params.get("picks").split("|");
+  if (params.get("hidden")) sheet.hidden = params.get("hidden").split("|");
+  if (params.get("tmpl")) sheet.templates = params.get("tmpl").split("|");
   if (params.get("dark")) document.documentElement.dataset.mode = "DARK";
   render();
 }
@@ -259,11 +296,14 @@ if (window.parent === window) {
   OBR.onReady(async () => {
     inOBR = true;
     await applyTheme(OBR);
+    try { isGM = (await OBR.player.getRole()) === "GM"; } catch { isGM = false; }
     if (itemId) {
       const [it] = await OBR.scene.items.getItems([itemId]);
       item = it ?? null;
       if (item && data) sheet = sheetForItem(data, item);
       showTier = sheet.tier || 1;
+      // GM opening a sheet saves the guess, so players see the same class/tier.
+      if (isGM && item && sheet.guessed && sheet.cls) await persist();
       OBR.scene.items.onChange((items) => {
         const next = items.find((i) => i.id === itemId);
         if (!next) { OBR.popover.close(POPOVER_ID); return; }
@@ -274,7 +314,10 @@ if (window.parent === window) {
           if (focused && focused.matches("input[type=number]")) return; // don't clobber typing
           const y = document.querySelector(".scroll")?.scrollTop ?? 0;
           const saved = item.metadata[SHEET_KEY];
-          if (saved && saved.cls) sheet = { ...sheet, ...saved, guessed: false };
+          if (saved && saved.cls) {
+            sheet = { ...sheet, ...saved, guessed: false };
+            if (!isGM) showTier = sheet.tier || 1;
+          }
           render();
           const s = document.querySelector(".scroll"); if (s) s.scrollTop = y;
         }
