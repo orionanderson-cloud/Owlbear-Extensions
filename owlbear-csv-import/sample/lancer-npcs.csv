@@ -1,0 +1,106 @@
+Name,Role,Tier,Size,Hull,Agility,Systems,Engineering,HP,Heat,Structure,Stress,Armor,Evasion,E-Def,Speed [offmap],Sensors [offmap],Save [offmap],Source
+Ace,Striker,1,1,-2,+3,+1,+0,10,8,1,1,0,12,8,5,10,10,NPCs Rebaked 1.2
+Ace T2,Striker,2,1,-2,+4,+2,+1,12,8,1,1,0,15,8,6,10,12,NPCs Rebaked 1.2
+Ace T3,Striker,3,1,-2,+6,+3,+1,14,8,1,1,0,18,10,7,10,14,NPCs Rebaked 1.2
+Aegis,Support,1,2,+0,-2,+2,+2,14,10,1,1,2,7,10,3,10,10,NPCs Rebaked 1.2
+Aegis T2,Support,2,2,+0,-2,+3,+3,16,10,1,1,2,8,12,3,10,12,NPCs Rebaked 1.2
+Aegis T3,Support,3,2,+0,-2,+4,+4,18,10,1,1,3,9,14,3,10,14,NPCs Rebaked 1.2
+Archer,Controller,1,1,-1,+2,+2,-1,16,8,1,1,0,8,8,5,15,11,NPCs Rebaked 1.2
+Archer T2,Controller,2,1,-1,+3,+3,-1,18,8,1,1,0,10,10,5,15,13,NPCs Rebaked 1.2
+Archer T3,Controller,3,1,-1,+4,+4,-1,20,8,1,1,0,12,12,6,15,16,NPCs Rebaked 1.2
+Assassin,Striker,1,1/2,+0,+2,+1,-1,15,7,1,1,0,12,8,6,10,10,NPCs Rebaked 1.2
+Assassin T2,Striker,2,1/2,+1,+3,+1,+0,18,7,1,1,0,15,9,7,10,12,NPCs Rebaked 1.2
+Assassin T3,Striker,3,1/2,+1,+4,+2,+0,20,7,1,1,0,17,10,8,10,14,NPCs Rebaked 1.2
+Assault,Striker,1,1,+1,+1,+1,+1,15,8,1,1,1,8,8,4,10,10,NPCs Rebaked 1.2
+Assault T2,Striker,2,1,+2,+2,+2,+2,18,8,1,1,1,10,9,4,10,12,NPCs Rebaked 1.2
+Assault T3,Striker,3,1,+3,+3,+3,+3,21,8,1,1,1,12,10,4,10,14,NPCs Rebaked 1.2
+Avenger,Striker/Defender,1,1,+1,+2,-1,+0,15,6,1,1,0,10,8,5,8,10,Wallflower Rebaked
+Avenger T2,Striker/Defender,2,1,+2,+3,-1,+0,18,6,1,1,0,12,10,5,8,12,Wallflower Rebaked
+Avenger T3,Striker/Defender,3,1,+3,+4,-1,+0,21,6,1,1,0,14,12,5,8,14,Wallflower Rebaked
+Barricade,Controller,1,2,+0,-2,+1,+3,14,10,1,1,2,6,9,3,15,12,NPCs Rebaked 1.2
+Barricade T2,Controller,2,2,+1,-2,+1,+4,18,10,1,1,2,7,11,3,15,15,NPCs Rebaked 1.2
+Barricade T3,Controller,3,2,+2,-2,+1,+5,22,10,1,1,2,8,13,4,15,18,NPCs Rebaked 1.2
+Bastion,Defender,1,2,+2,-3,+0,+2,10,8,1,1,3,8,8,4,5,10,NPCs Rebaked 1.2
+Bastion T2,Defender,2,2,+4,-3,+0,+3,12,8,1,1,3,10,9,4,5,12,NPCs Rebaked 1.2
+Bastion T3,Defender,3,2,+6,-3,+0,+4,14,8,1,1,4,12,10,4,5,14,NPCs Rebaked 1.2
+Berserker,Striker,1,1,+3,+2,-2,-1,12,6,1,1,1,8,6,5,5,10,NPCs Rebaked 1.2
+Berserker T2,Striker,2,1,+4,+3,-2,-1,16,6,1,1,1,9,7,5,5,12,NPCs Rebaked 1.2
+Berserker T3,Striker,3,1,+5,+4,-2,-1,20,6,1,1,1,10,8,5,5,14,NPCs Rebaked 1.2
+Bombard,Artillery,1,2,+0,-1,+1,+2,12,8,1,1,0,7,12,2,15,11,NPCs Rebaked 1.2
+Bombard T2,Artillery,2,2,+0,-1,+2,+3,14,8,1,1,0,8,14,2,15,13,NPCs Rebaked 1.2
+Bombard T3,Artillery,3,2,+0,-1,+3,+4,16,8,1,1,0,9,16,2,15,15,NPCs Rebaked 1.2
+Breacher,Striker,1,2,+2,+0,-1,+1,18,7,1,1,1,9,7,3,5,11,NPCs Rebaked 1.2
+Breacher T2,Striker,2,2,+3,+0,-1,+2,20,7,1,1,1,11,8,3,5,13,NPCs Rebaked 1.2
+Breacher T3,Striker,3,2,+4,+0,-1,+3,22,7,1,1,1,13,9,4,5,15,NPCs Rebaked 1.2
+Cataphract,Striker,1,1,+1,+2,+0,+0,16,6,1,1,0,10,8,8,5,12,NPCs Rebaked 1.2
+Cataphract T2,Striker,2,1,+2,+3,+0,+0,18,7,1,1,0,11,9,8,5,14,NPCs Rebaked 1.2
+Cataphract T3,Striker,3,1,+3,+4,+0,+0,20,8,1,1,0,12,10,8,5,16,NPCs Rebaked 1.2
+Demolisher,Defender,1,2,+3,-3,-1,+2,20,8,1,1,2,6,7,2,10,10,NPCs Rebaked 1.2
+Demolisher T2,Defender,2,2,+4,-2,-1,+3,25,8,1,1,2,7,8,2,10,13,NPCs Rebaked 1.2
+Demolisher T3,Defender,3,2,+5,-2,-1,+4,30,8,1,1,2,8,9,2,10,15,NPCs Rebaked 1.2
+Engineer,Striker,1,1,-1,-1,+1,+3,20,10,1,1,0,7,10,3,15,10,NPCs Rebaked 1.2
+Engineer T2,Striker,2,1,-1,-1,+2,+4,22,10,1,1,0,8,12,3,15,12,NPCs Rebaked 1.2
+Engineer T3,Striker,3,1,-1,-1,+3,+5,24,10,1,1,0,9,14,3,15,14,NPCs Rebaked 1.2
+Goliath,Defender,1,3,+4,-2,+1,+1,25,8,1,1,0,6,8,3,10,11,NPCs Rebaked 1.2
+Goliath T2,Defender,2,3,+5,-2,+2,+1,30,10,1,1,0,7,9,3,10,13,NPCs Rebaked 1.2
+Goliath T3,Defender,3,3,+6,-2,+3,+1,35,12,1,1,0,8,10,3,10,15,NPCs Rebaked 1.2
+Grunt,Variable,1,1,+0,+0,+0,+0,1,N/A,1,1,0,8,8,4,10,10,NPCs Rebaked 1.2
+Grunt T2,Variable,2,1,+1,+1,+1,+1,1,N/A,1,1,0,9,9,4,10,12,NPCs Rebaked 1.2
+Grunt T3,Variable,3,1,+2,+2,+2,+2,1,N/A,1,1,0,10,10,4,10,14,NPCs Rebaked 1.2
+Hive,Controller,1,1,-1,+0,+2,+1,20,8,1,1,0,8,10,4,10,12,NPCs Rebaked 1.2
+Hive T2,Controller,2,1,-1,+0,+3,+2,22,8,1,1,0,9,12,4,10,14,NPCs Rebaked 1.2
+Hive T3,Controller,3,1,-1,+0,+4,+3,24,8,1,1,0,10,14,4,10,16,NPCs Rebaked 1.2
+Hornet,Controller,1,1/2,-2,+2,+2,+0,8,5,1,1,0,16,6,6,5,12,NPCs Rebaked 1.2
+Hornet T2,Controller,2,1/2,-2,+4,+3,+0,8,6,1,1,0,18,7,8,5,14,NPCs Rebaked 1.2
+Hornet T3,Controller,3,1/2,-2,+6,+4,+0,8,7,1,1,0,20,8,10,5,16,NPCs Rebaked 1.2
+Lurker,Striker,1,1/2-1,+2,+2,+0,-2,12,5,1,1,1,10,6,3,10,11,Wallflower Rebaked
+Lurker T2,Striker,2,1/2-1,+3,+3,+0,-2,14,6,1,1,1,12,7,3,10,13,Wallflower Rebaked
+Lurker T3,Striker,3,1/2-1,+4,+4,+0,-2,16,7,1,1,1,14,8,3,10,15,Wallflower Rebaked
+Mirage,Support,1,1/2,-2,+1,+2,+1,10,6,1,1,0,10,12,5,15,12,NPCs Rebaked 1.2
+Mirage T2,Support,2,1/2,-2,+2,+3,+1,12,6,1,1,0,12,15,5,15,14,NPCs Rebaked 1.2
+Mirage T3,Support,3,1/2,-2,+2,+4,+1,14,6,1,1,0,14,18,5,15,16,NPCs Rebaked 1.2
+Operator,Artillery,1,1,+2,+2,+2,+2,12,8,1,1,0,10,10,5,10,11,NPCs Rebaked 1.2
+Operator T2,Artillery,2,1,+3,+3,+3,+3,14,8,1,1,0,12,12,5,10,13,NPCs Rebaked 1.2
+Operator T3,Artillery,3,1,+4,+4,+4,+4,16,8,1,1,0,14,14,5,10,15,NPCs Rebaked 1.2
+Priest,Support,1,1/2,-1,-1,+2,+2,10,10,1,1,0,10,12,5,10,11,NPCs Rebaked 1.2
+Priest T2,Support,2,1/2,-1,-1,+4,+3,13,10,1,1,0,12,15,5,10,13,NPCs Rebaked 1.2
+Priest T3,Support,3,1/2,-1,-1,+6,+4,16,10,1,1,0,14,18,5,10,15,NPCs Rebaked 1.2
+Pyro,Defender,1,1,+1,-1,-1,+3,10,12,1,1,3,8,8,2,8,11,NPCs Rebaked 1.2
+Pyro T2,Defender,2,1,+2,-1,-1,+4,13,12,1,1,3,9,9,2,8,13,NPCs Rebaked 1.2
+Pyro T3,Defender,3,1,+3,-1,-1,+5,16,12,1,1,3,10,10,2,8,15,NPCs Rebaked 1.2
+Rainmaker,Artillery,1,1,+0,+0,+2,+0,10,8,1,1,1,8,8,3,15,11,NPCs Rebaked 1.2
+Rainmaker T2,Artillery,2,1,+0,+1,+3,+0,12,8,1,1,1,10,10,3,15,13,NPCs Rebaked 1.2
+Rainmaker T3,Artillery,3,1,+0,+1,+4,+1,14,8,1,1,1,12,12,3,15,15,NPCs Rebaked 1.2
+Ronin,Striker,1,1,+1,+2,-1,-1,18,7,1,1,0,10,7,5,10,10,NPCs Rebaked 1.2
+Ronin T2,Striker,2,1,+2,+3,-1,-1,20,7,1,1,0,13,8,5,10,13,NPCs Rebaked 1.2
+Ronin T3,Striker,3,1,+3,+4,-1,-1,22,7,1,1,0,16,9,6,10,15,NPCs Rebaked 1.2
+Scourer,Striker,1,1,+1,+0,+0,+2,10,8,1,1,2,8,8,4,8,10,NPCs Rebaked 1.2
+Scourer T2,Striker,2,1,+2,+0,+0,+3,13,10,1,1,2,9,9,4,8,12,NPCs Rebaked 1.2
+Scourer T3,Striker,3,1,+3,+0,+0,+4,16,12,1,1,2,10,10,4,8,14,NPCs Rebaked 1.2
+Scout,Support,1,1/2,-2,+2,+3,-1,8,6,1,1,0,12,10,6,20,11,NPCs Rebaked 1.2
+Scout T2,Support,2,1/2,-2,+4,+4,-1,8,6,1,1,0,15,13,7,20,13,NPCs Rebaked 1.2
+Scout T3,Support,3,1/2,-2,+5,+5,-1,8,6,1,1,0,18,16,8,20,15,NPCs Rebaked 1.2
+Seeder,Controller,1,1,+0,+0,+2,+0,12,8,1,1,2,7,10,4,15,12,NPCs Rebaked 1.2
+Seeder T2,Controller,2,1,+1,+0,+3,+0,14,8,1,1,2,8,11,4,15,15,NPCs Rebaked 1.2
+Seeder T3,Controller,3,1,+2,+0,+4,+0,16,8,1,1,2,9,12,4,15,18,NPCs Rebaked 1.2
+Sentinel,Defender,1,2,+2,+1,+1,+1,16,8,1,1,1,8,8,4,10,10,NPCs Rebaked 1.2
+Sentinel T2,Defender,2,2,+3,+2,+2,+2,20,8,1,1,1,11,11,4,10,12,NPCs Rebaked 1.2
+Sentinel T3,Defender,3,2,+4,+3,+3,+3,24,8,1,1,1,13,13,5,10,14,NPCs Rebaked 1.2
+Sniper,Artillery,1,1,-2,+1,+2,+0,10,6,1,1,0,10,8,4,15,11,NPCs Rebaked 1.2
+Sniper T2,Artillery,2,1,-2,+2,+3,+0,12,6,1,1,0,13,9,4,15,13,NPCs Rebaked 1.2
+Sniper T3,Artillery,3,1,-2,+3,+4,+0,14,6,1,1,0,16,10,4,15,15,NPCs Rebaked 1.2
+Specter,Striker,1,1,-2,+3,+1,+0,10,7,1,1,0,10,8,4,5,10,NPCs Rebaked 1.2
+Specter T2,Striker,2,1,-2,+4,+2,+1,10,7,1,1,0,14,10,5,5,12,NPCs Rebaked 1.2
+Specter T3,Striker,3,1,-2,+5,+3,+1,10,7,1,1,0,18,12,6,5,14,NPCs Rebaked 1.2
+Spite,Defender,1,2,+0,-2,+1,+2,18,6,1,1,2,6,10,2,20,12,Wallflower Rebaked
+Spite T2,Defender,2,2,+0,-2,+2,+3,20,6,1,1,2,7,12,2,20,14,Wallflower Rebaked
+Spite T3,Defender,3,2,+0,-2,+3,+4,22,6,1,1,2,8,14,2,20,16,Wallflower Rebaked
+Strider,Artillery/Striker,1,1,-1,+2,+0,+1,14,7,1,1,1,10,8,5,15,11,Wallflower Rebaked
+Strider T2,Artillery/Striker,2,1,-1,+3,+0,+2,16,7,1,1,1,12,10,5,15,13,Wallflower Rebaked
+Strider T3,Artillery/Striker,3,1,-1,+4,+0,+3,18,7,1,1,1,14,12,5,15,15,Wallflower Rebaked
+Support,Support,1,2,+1,-2,+0,+2,15,8,1,1,1,8,8,5,10,10,NPCs Rebaked 1.2
+Support T2,Support,2,2,+1,-2,+1,+4,18,8,1,1,1,10,10,5,10,12,NPCs Rebaked 1.2
+Support T3,Support,3,2,+1,-2,+2,+6,22,8,1,1,1,12,12,5,10,14,NPCs Rebaked 1.2
+Witch,Controller,1,1/2,-2,+1,+4,+0,12,8,1,1,0,8,12,5,15,12,NPCs Rebaked 1.2
+Witch T2,Controller,2,1/2,-2,+2,+5,+0,14,8,1,1,0,10,16,5,15,14,NPCs Rebaked 1.2
+Witch T3,Controller,3,1/2,-2,+3,+6,+0,16,8,1,1,0,12,20,5,15,16,NPCs Rebaked 1.2

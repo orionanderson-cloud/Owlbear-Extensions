@@ -1,0 +1,4 @@
+Name,HP,Heat,Structure,Stress,Armor,Evasion,E-Def,Speed [offmap],Notes
+Example NPC,12,8,1,1,1,8,8,4,Plain numbers: bars start full and Heat starts at 0
+Example Ultra,30/40,3/10,2/4,4,2,6,8,3,"value/max sets a bar part-way, e.g. 30/40 HP"
+Example Minion,5,,,,,8,8,4,Blank cells are left off this token

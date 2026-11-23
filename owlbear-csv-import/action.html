@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CSV Stat Import</title>
+<style>
+  :root {
+    --fg: rgba(0, 0, 0, 0.87); --muted: rgba(0, 0, 0, 0.6); --line: rgba(0, 0, 0, 0.15);
+    --field: rgba(0, 0, 0, 0.05); --accent: #7b61c9; --accent-fg: #fff; --ok: #2e7d32; --warn: #b26a00; --err: #c62828;
+  }
+  :root[data-mode="DARK"] {
+    --fg: #fff; --muted: rgba(255, 255, 255, 0.7); --line: rgba(255, 255, 255, 0.18);
+    --field: rgba(255, 255, 255, 0.08); --accent: #bb99ff; --accent-fg: #1e1e1e; --ok: #81c784; --warn: #ffb74d; --err: #ef9a9a;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: transparent; color: var(--fg); font: 13px/1.4 Roboto, system-ui, sans-serif; }
+  main { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 10px; }
+  h1 { font-size: 15px; font-weight: 500; margin: 0; }
+  .muted { color: var(--muted); font-size: 12px; }
+  .row { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+  button, select, textarea { font: inherit; color: var(--fg); }
+  button {
+    border: 1px solid var(--line); background: var(--field); border-radius: 8px; padding: 6px 10px; cursor: pointer;
+  }
+  button.primary { background: var(--accent); color: var(--accent-fg); border-color: transparent; font-weight: 500; }
+  button:disabled { opacity: 0.45; cursor: default; }
+  select { background: var(--field); border: 1px solid var(--line); border-radius: 8px; padding: 5px 6px; flex: 1; min-width: 0; }
+  select option { color: #000; }
+  textarea {
+    width: 100%; min-height: 90px; resize: vertical; background: var(--field); border: 1px solid var(--line);
+    border-radius: 8px; padding: 6px; font-family: ui-monospace, Consolas, monospace; font-size: 11px;
+  }
+  section { border-top: 1px solid var(--line); padding-top: 10px; display: flex; flex-direction: column; gap: 6px; }
+  label.check { display: flex; gap: 6px; align-items: center; }
+  .chips { display: flex; flex-wrap: wrap; gap: 4px; }
+  .chip { border: 1px solid var(--line); border-radius: 999px; padding: 1px 7px; font-size: 11px; }
+  .chip.off { opacity: 0.55; border-style: dashed; }
+  #status { min-height: 1em; font-size: 12px; white-space: pre-line; }
+  #status.ok { color: var(--ok); } #status.warn { color: var(--warn); } #status.err { color: var(--err); }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<main>
+  <div>
+    <h1>CSV Stat Import</h1>
+    <div class="muted" id="loaded">No CSV loaded.</div>
+  </div>
+
+  <div class="row">
+    <button id="pick">Load CSV file</button>
+    <button id="togglePaste">Paste CSV</button>
+    <input type="file" id="file" accept=".csv,.tsv,.txt,text/csv" hidden />
+  </div>
+  <div id="pasteBox" hidden>
+    <textarea id="paste" placeholder="Name,HP,Heat,Structure,Stress,Armor,Evasion,E-Def&#10;Assault,15,8,1,1,1,8,8"></textarea>
+    <div class="row"><button id="usePaste">Use pasted text</button></div>
+  </div>
+
+  <div id="columns" class="chips" title="Trackers each token will get. Dashed = tracked but not shown on the map."></div>
+
+  <section>
+    <button class="primary" id="applyByName" disabled>Apply to selected tokens by name</button>
+    <div class="muted">Matches each token's name or label to the Name column. "Assault 2" and "Assault (B)" match "Assault".</div>
+  </section>
+
+  <section>
+    <div class="row">
+      <select id="rowPick" disabled></select>
+      <button id="applyRow" disabled>Apply</button>
+    </div>
+    <div class="muted">Puts one row's stats on every selected token, whatever it's called.</div>
+  </section>
+
+  <section>
+    <label class="check"><input type="checkbox" id="replaceAll" /> Remove the token's other trackers first</label>
+    <div class="row">
+      <span>Players see stats:</span>
+      <select id="hidden">
+        <option value="keep">Don't change</option>
+        <option value="hide">Hide from players</option>
+        <option value="show">Show to players</option>
+      </select>
+    </div>
+  </section>
+
+  <div id="status"></div>
+</main>
+<script type="module" src="action.js"></script>
+</body>
+</html>

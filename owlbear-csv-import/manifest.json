@@ -1,0 +1,16 @@
+{
+  "name": "CSV Stat Import",
+  "version": "1.0.0",
+  "manifest_version": 1,
+  "author": "Orion",
+  "description": "Load a CSV of stats and write them onto tokens as Owl Trackers bars and bubbles.",
+  "icon": "icon.svg",
+  "background_url": "background.html",
+  "action": {
+    "title": "CSV Stat Import",
+    "icon": "icon.svg",
+    "popover": "action.html",
+    "height": 500,
+    "width": 320
+  }
+}
