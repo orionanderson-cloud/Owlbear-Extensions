@@ -4,12 +4,12 @@
   "manifest_version": 1,
   "author": "Orion",
   "description": "Open a full NPCs Rebaked sheet for any enemy token: stats for its tier, systems, templates and its Owl Trackers values.",
-  "icon": "https://orionanderson-cloud.github.io/Owlbear-Extensions/lancer-npc-sheets/icon.svg",
-  "background_url": "https://orionanderson-cloud.github.io/Owlbear-Extensions/lancer-npc-sheets/background.html",
+  "icon": "https://orionanderson-cloud.github.io/Owlbear-Extensions/lancer-npc-sheets/lancer-npc-sheets/icon.svg",
+  "background_url": "https://orionanderson-cloud.github.io/Owlbear-Extensions/lancer-npc-sheets/lancer-npc-sheets/background.html",
   "action": {
     "title": "Lancer NPC Sheets",
-    "icon": "https://orionanderson-cloud.github.io/Owlbear-Extensions/lancer-npc-sheets/icon.svg",
-    "popover": "https://orionanderson-cloud.github.io/Owlbear-Extensions/lancer-npc-sheets/action.html",
+    "icon": "https://orionanderson-cloud.github.io/Owlbear-Extensions/lancer-npc-sheets/lancer-npc-sheets/icon.svg",
+    "popover": "https://orionanderson-cloud.github.io/Owlbear-Extensions/lancer-npc-sheets/lancer-npc-sheets/action.html",
     "height": 520,
     "width": 340
   }
